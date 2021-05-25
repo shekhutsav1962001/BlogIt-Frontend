@@ -28,7 +28,11 @@ function App() {
   //   // console.log(response)
   // }
   const [splash, setSplash] = useState(true);
+
   useEffect(() => {
+    if (window.innerWidth < 460) {
+      setSplash(false)
+    }
     setTimeout(() => setSplash(false), 4000)
   }, []);
   return (
