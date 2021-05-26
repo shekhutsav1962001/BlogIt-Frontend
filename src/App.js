@@ -27,7 +27,7 @@ function App() {
   //   console.log("error")
   //   // console.log(response)
   // }
-  const [splash, setSplash] = useState(true);
+  const [splash, setSplash] = useState(false);
 
   useEffect(() => {
     if (window.innerWidth < 460) {
@@ -55,7 +55,7 @@ function App() {
         </Switch>
       }
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
