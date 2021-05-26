@@ -10,7 +10,7 @@ function Navbar() {
 
         <nav className="navbar  navbar-expand-lg">
             <a className="navbar-brand" href="https://storage.googleapis.com/canteen-assets/index/logo.png">
-                <img src="https://storage.googleapis.com/canteen-assets/index/logo.png" height="30" alt="CoolBrand"
+                <img src="https://storage.googleapis.com/canteen-assets/index/blogit.png" height="30" alt="CoolBrand"
                     style={{ marginLeft: '10px' }} />
             </a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" style={{ color: "white", outline: "none" }}
