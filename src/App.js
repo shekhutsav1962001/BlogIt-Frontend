@@ -3,10 +3,12 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { Route, Switch } from "react-router-dom";
 // import { GoogleLogin } from 'react-google-login';
 // import axios from 'axios'
-import Footer from "./components/Footer"
+// import Footer from "./components/Footer"
 import Landing from "./components/Landing"
 import Navbar from "./components/Navbar"
 import Splash from "./components/Splash"
+import Addblog from "./components/Addblog"
+
 function App() {
   // const responseSuccessGoogle = (response) => {
   //   console.log("success")
@@ -51,7 +53,9 @@ function App() {
       {splash === true ? <Splash /> :
         <Switch>
 
-          <Route exact path="/" component={Landing}></Route>
+          <Route exact={true} path="/" component={Landing}></Route>
+          <Route exact={true} path="/addblog" component={Addblog}></Route>
+          
         </Switch>
       }
 

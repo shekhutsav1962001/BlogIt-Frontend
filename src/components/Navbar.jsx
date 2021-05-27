@@ -9,7 +9,7 @@ function Navbar() {
     return (
 
         <nav className="navbar  navbar-expand-lg">
-            <Link className="navbar-brand" to="/">
+            <Link className="navbar-brand" exact={"true"} to="/">
                 <img src="https://storage.googleapis.com/canteen-assets/blogit/blogit.png" height="30" alt="CoolBrand"
                     style={{ marginLeft: '10px' }} />
             </Link>
@@ -19,10 +19,10 @@ function Navbar() {
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav">
-                    <li className="nav-item"><NavLink exact activeClassName="active" to="/" className="nav-link third after">Home</NavLink></li>
-                    <li className="nav-item"><NavLink exact activeClassName="active" to="/a" className="nav-link third after">view Blogs</NavLink></li>
-
-                    <li className="nav-item"><NavLink exact activeClassName="active" to="/b" className="nav-link third after">Login</NavLink></li>
+                    <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/" className="nav-link third after">Home</NavLink></li>
+                    <li className="nav-item"><NavLink exact={true}  activeClassName="active" to="/viewblogs" className="nav-link third after">view Blogs</NavLink></li>
+                    <li className="nav-item"><NavLink exact={true}  activeClassName="active" to="/addblog" className="nav-link third after">Add Blog</NavLink></li>
+                    <li className="nav-item"><NavLink exact={true}  activeClassName="active" to="/login" className="nav-link third after">Login</NavLink></li>
                 </ul >
             </div >
         </nav >
