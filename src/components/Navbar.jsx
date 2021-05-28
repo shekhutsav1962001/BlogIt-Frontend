@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Link, NavLink } from "react-router-dom";
 import '../styles/Navbar.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-
+import { isLoggedIn } from '../apis/LoggedIn.js'
 function Navbar() {
-    // console.log("object");
+    const [isLogin, setisLogin] = useState(isLoggedIn());
+    useEffect(() => {
+        if (isLoggedIn()) {
+            setisLogin(true)
+        }
+        else {
+            setisLogin(false)
+        }
+    }, []);
     return (
 
         <nav className="navbar  navbar-expand-lg">
@@ -20,9 +28,22 @@ function Navbar() {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav">
                     <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/" className="nav-link third after">Home</NavLink></li>
-                    <li className="nav-item"><NavLink exact={true}  activeClassName="active" to="/viewblogs" className="nav-link third after">view Blogs</NavLink></li>
-                    <li className="nav-item"><NavLink exact={true}  activeClassName="active" to="/addblog" className="nav-link third after">Add Blog</NavLink></li>
-                    <li className="nav-item"><NavLink exact={true}  activeClassName="active" to="/login" className="nav-link third after">Login</NavLink></li>
+                    <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/viewblogs" className="nav-link third after">view Blogs</NavLink></li>
+                    {isLogin ? (
+                        <>
+                            <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/addblog" className="nav-link third after">Add Blog</NavLink></li>
+                            <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/viewmyblogs" className="nav-link third after">View myblogs</NavLink></li>
+                            <li className="nav-item" onClick={() => {
+                                localStorage.removeItem("token")
+                                setisLogin(false)
+                            }}><a href="/" className="nav-link third after">Logout</a></li>
+                        </>
+                    ) : (
+                        <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/login" className="nav-link third after">Login</NavLink></li>
+                    )}
+
+
+
                 </ul >
             </div >
         </nav >

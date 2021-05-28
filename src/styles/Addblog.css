@@ -22,11 +22,11 @@ input{
     transition: all 100ms ease-in-out;
 }
 
-input:focus,textarea:focus{
+input.addinput:focus,textarea:focus{
     box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
 }
 
-.image-upload {
+.image-upload { 
     width: 100%;
     height: 200px;
     border: 1px solid #ddd;
@@ -39,7 +39,9 @@ input:focus,textarea:focus{
     color: #666;
     overflow: hidden
   }
-  
+  .image-upload:hover{
+    background-color: #f1f1f1;
+  }
   
   .image-upload i {
     font-size: 4em;
@@ -59,7 +61,7 @@ input:focus,textarea:focus{
     top: 0;
     left: 0
   }
-  button{
+  button.addblogbtn{
     margin-bottom: 20px;
     outline: none;
   }
