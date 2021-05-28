@@ -1,61 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import { Route, Switch } from "react-router-dom";
-// import { GoogleLogin } from 'react-google-login';
-// import axios from 'axios'
+import { Redirect, Route, Switch } from "react-router-dom";
 // import Footer from "./components/Footer"
 import Landing from "./components/Landing"
 import Navbar from "./components/Navbar"
 import Splash from "./components/Splash"
 import Addblog from "./components/Addblog"
-
+import Viewbloglist from "./components/Viewbloglist"
+import Viewmybloglist from './components/Viewmybloglist'
+import Login from "./components/Login"
+import { isLoggedIn } from './apis/LoggedIn'
 function App() {
-  // const responseSuccessGoogle = (response) => {
-  //   console.log("success")
-  //   // console.log(response)
-  //   axios({
-  //     method: "POST",
-  //     url: `${process.env.REACT_APP_API}auth/googlelogin`,
-  //     data: { tokenId: response.tokenId }
-  //   }).then(res => {
-  //     const { token } = res.data
-  //     localStorage.setItem("token", token)
-  //     localStorage.setItem("isLoggedIn", true)
-  // window.location.reload();
-  //   })
 
-  // }
-  // const responseErrorGoogle = (response) => {
-  //   console.log("error")
-  //   // console.log(response)
-  // }
   const [splash, setSplash] = useState(false);
-
+  const [isLogin, setisLogin] = useState(isLoggedIn());
   useEffect(() => {
+    if (isLoggedIn()) {
+      setisLogin(true)
+    }
+    else {
+      setisLogin(false)
+    }
     if (window.innerWidth < 460) {
       setSplash(false)
     }
     setTimeout(() => setSplash(false), 4000)
   }, []);
+
   return (
-    // <div className="text-danger">
-    //   Hello
-    //   <GoogleLogin
-    //     clientId={process.env.REACT_APP_CLIENTID}
-    //     buttonText="Login with Google"
-    //     onSuccess={responseSuccessGoogle}
-    //     onFailure={responseErrorGoogle}
-    //     cookiePolicy={'single_host_origin'}
-    //   />
-    //  </div> 
+
     <>
       <Navbar />
       {splash === true ? <Splash /> :
         <Switch>
 
           <Route exact={true} path="/" component={Landing}></Route>
-          <Route exact={true} path="/addblog" component={Addblog}></Route>
-          
+          <Route exact={true} path="/login" component={Login}></Route>
+          <Route exact={true} path="/viewblogs" component={Viewbloglist}></Route>
+
+          {/* auth required */}
+          <Route exact={true} path="/addblog">
+            {isLogin ? <Addblog /> : <Redirect to="/" />}
+          </Route>
+          <Route exact={true} path="/viewmyblogs">
+            {isLogin ? <Viewmybloglist /> : <Redirect to="/" />}
+          </Route>
+
         </Switch>
       }
 

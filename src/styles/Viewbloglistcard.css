@@ -1,0 +1,21 @@
+.card{
+    margin: 20px 0;
+}
+.avatar {
+    vertical-align: middle;
+    width:30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 5px;
+  }
+  .card-header{
+      font-weight: 600;
+  }
+h5{
+    font-weight: 500;
+}
+
+  a{
+      text-decoration: none;
+      
+  }

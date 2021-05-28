@@ -3,7 +3,8 @@ import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css';
 import '../styles/Addblog.css'
-
+import { isLoggedIn } from '../apis/LoggedIn'
+import { Redirect } from 'react-router';
 function Addblog() {
     // this is ck things
     const [data, setData] = useState("")
@@ -11,16 +12,23 @@ function Addblog() {
     const [defalut, setDefault] = useState("")
 
     const mdParser = new MarkdownIt({ html: false, breaks: true, linkify: false });
+
+    const [isLogin, setisLogin] = useState(isLoggedIn());
     function handleEditorChange({ html, text }) {
 
-        
+
         setData(text)
-      
+
     }
-    console.log( new Date().toLocaleDateString());
 
-    useEffect(() => {
 
+    useEffect(() => { 
+        if (isLoggedIn()) {
+            setisLogin(true)
+        }
+        else {
+            setisLogin(false)
+        }
         // hide nav
         // let nav = document.getElementsByClassName('rc-md-navigation')[0]
         // nav.classList.toggle('visible');
@@ -34,13 +42,13 @@ function Addblog() {
         // md.classList.toggle('invisible');
     }, [])
     return (
-
+       
 
         <>
-            <div className="container">
+            {isLogin ? (<div className="container">
                 <div className="parent">
                     <span className="title">Blog Title :-</span>
-                    <input type="text" autoComplete="off" autoCorrect="off" spellCheck="false" />
+                    <input className="addinput" type="text" autoComplete="off" autoCorrect="off" spellCheck="false" />
                 </div>
                 <div className="parent">
                     <span className="title">Blog Content :-</span>
@@ -66,14 +74,15 @@ function Addblog() {
                             document.getElementById("filename").innerText = e.target.value.split('\\').pop()
                         }} />
 
-                        <h5 id="filename"></h5>
+                        <h5 id="filename"> </h5>
 
                     </div>
                 </div>
                 <div className="parent">
-                    <button className="btn btn-outline-primary">Add Blog</button>
+                    <button className="btn btn-outline-primary addblogbtn">Add Blog</button>
                 </div>
-            </div>
+            </div>) : (<Redirect to="/" />)}
+
         </>
     )
 }
