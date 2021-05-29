@@ -10,6 +10,8 @@ import Viewbloglist from "./components/Viewbloglist"
 import Viewmybloglist from './components/Viewmybloglist'
 import Login from "./components/Login"
 import { isLoggedIn } from './apis/LoggedIn'
+// toster css
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
 
   const [splash, setSplash] = useState(false);
@@ -30,6 +32,7 @@ function App() {
   return (
 
     <>
+      
       <Navbar />
       {splash === true ? <Splash /> :
         <Switch>

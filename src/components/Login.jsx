@@ -63,34 +63,37 @@ function Login() {
 
 
     return (
-        <div className="body">
-            <div className="containerr">
-                <h1>Login</h1>
-                {error.hasError ? <p className="tomato">{error.errormsg}</p> : null}
-                <form onSubmit={handleSubmit}>
-                    <div className="form-controll">
-                        <input name="email" type="text" autoComplete="off" autoCorrect="off" spellCheck="false" required />
-                        <label>Email</label>
+        <>
+          
+            <div className="body">
+                <div className="containerr">
+                    <h1>Login</h1>
+                    {error.hasError ? <p className="tomato">{error.errormsg}</p> : null}
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-controll">
+                            <input name="email" type="text" autoComplete="off" autoCorrect="off" spellCheck="false" required />
+                            <label>Email</label>
 
-                    </div>
+                        </div>
 
-                    <div className="form-controll">
-                        <input name="password" type="password" autoComplete="off" autoCorrect="off" spellCheck="false" required />
-                        <label>Password</label>
-                    </div>
+                        <div className="form-controll">
+                            <input name="password" type="password" autoComplete="off" autoCorrect="off" spellCheck="false" required />
+                            <label>Password</label>
+                        </div>
 
-                    <button type="submit" className="btnlogin">Login</button>
-                </form>
+                        <button type="submit" className="btnlogin">Login</button>
+                    </form>
 
-                <div className="btngooglelogin"> <GoogleLogin
-                    clientId={process.env.REACT_APP_CLIENTID}
-                    buttonText="Login with Google"
-                    onSuccess={responseSuccessGoogle}
-                    onFailure={responseErrorGoogle}
-                    cookiePolicy={'single_host_origin'} /></div>
+                    <div className="btngooglelogin"> <GoogleLogin
+                        clientId={process.env.REACT_APP_CLIENTID}
+                        buttonText="Login with Google"
+                        onSuccess={responseSuccessGoogle}
+                        onFailure={responseErrorGoogle}
+                        cookiePolicy={'single_host_origin'} /></div>
 
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 
