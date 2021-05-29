@@ -34,3 +34,27 @@
 .tomato{
     color: tomato;
 }
+
+h3.empty{
+    font-size: 20px;
+}
+
+
+  h1.blogtitle{
+      font-size: 30px;
+  }
+
+  @media (max-width: 767px) {
+    h3.empty{
+      font-size: 14px;
+    }
+    h1.blogtitle{
+        font-size: 20px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    h1.blogtitle{
+        font-size: 15px;
+    } 
+  }

@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar"
 import Splash from "./components/Splash"
 import Addblog from "./components/Addblog"
 import Viewbloglist from "./components/Viewbloglist"
+import Viewblog from "./components/Viewblog"
 import Viewmybloglist from './components/Viewmybloglist'
 import Login from "./components/Login"
 import { isLoggedIn } from './apis/LoggedIn'
@@ -32,7 +33,7 @@ function App() {
   return (
 
     <>
-      
+
       <Navbar />
       {splash === true ? <Splash /> :
         <Switch>
@@ -40,6 +41,8 @@ function App() {
           <Route exact={true} path="/" component={Landing}></Route>
           <Route exact={true} path="/login" component={Login}></Route>
           <Route exact={true} path="/viewblogs" component={Viewbloglist}></Route>
+          <Route exact={true} path="/viewblog/:id" component={Viewblog}></Route>
+
 
           {/* auth required */}
           <Route exact={true} path="/addblog">

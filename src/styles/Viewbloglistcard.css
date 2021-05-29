@@ -1,5 +1,6 @@
 .card{
     margin: 20px 0;
+    cursor: pointer;
 }
 .avatar {
     vertical-align: middle;

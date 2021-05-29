@@ -1,21 +1,29 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import '../styles/Viewbloglistcard.css'
-function Viewbloglistcard() {
+import { useHistory } from "react-router-dom";
+function Viewbloglistcard(props) {
+    const { date, email, picture, title, id } = props;
+    const history = useHistory();
     return (
+
         <div className="col-md-6 col-lg-4">
-            <div className="card">
+
+            <div onClick={() => {
+                let path = "/viewblog/" + id
+                history.push(path);
+            }} className="card">
                 <div className="card-header">
-                    <img src="https://lh3.googleusercontent.com/a/AATXAJyqmvl-z_ruuuc1ioT9Ys2bxqFpFFyznOqEIO41=s96-c" alt="Avatar" className="avatar" /> 
-                    Special title treatment
+                    <img src={picture} alt="Avatar" className="avatar" />
+                    {title}
                 </div>
                 <div className="card-body">
-                    <h5 className="card-title">Posted by :- bidmafia007@gmail.com</h5>
-                    
-                    <Link to="/">Read more ...</Link>
+                    <h5 className="card-title">Posted by :- {email}</h5>
+
+                    <Link to={'viewblog/' + id} >Read more ...</Link>
                 </div>
                 <div className="card-footer text-muted">
-                    Fri May 28 2021
+                    {date}
                 </div>
             </div>
         </div>

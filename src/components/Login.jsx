@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 
 import { GoogleLogin } from 'react-google-login';
+import { toastMessage } from '../apis/Toast'
 import axios from 'axios'
 import "../styles/Login.css"
+// import { useHistory } from 'react-router-dom';
 
 function Login() {
-
+    // const history = useHistory();
     const [error, setError] = useState({
         hasError: false,
         errormsg: null
@@ -26,8 +28,17 @@ function Login() {
                 setError({ hasError: true, errormsg: error })
             }
             localStorage.setItem("token", token)
-            window.location.reload();
-            window.location = "/viewmyblogs"
+            toastMessage(true, "Login successful!!")
+
+            // window.location.reload();
+
+            setTimeout(function () {
+                window.location.reload();
+                // history.push('/viewmyblogs')
+                window.location = "/viewmyblogs"
+            }, 2000);
+
+            
         }).catch(err => {
             setError({ hasError: true, errormsg: "Something went wrong" })
         })
@@ -64,7 +75,7 @@ function Login() {
 
     return (
         <>
-          
+
             <div className="body">
                 <div className="containerr">
                     <h1>Login</h1>

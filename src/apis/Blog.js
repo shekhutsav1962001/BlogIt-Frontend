@@ -35,8 +35,7 @@ export const addBlogwithoutImage = async (data) => {
 
 
 export const addBlogwithImage = async (data) => {
-    
-    console.log(data)
+
     try {
         let token = await localStorage.getItem("token")
 
@@ -55,6 +54,62 @@ export const addBlogwithImage = async (data) => {
 
         toastMessage(true, message)
         return { message };
+
+    } catch (e) {
+        toastMessage(false, "Something went wrong")
+        return null
+    }
+}
+
+export const getallBlogs = async () => {
+    try {
+        let url = `${baseURL}blog/getallblogs`;
+        const response = await axios({ method: "GET", url: url, headers: { "Content-type": "application/json" } })
+        const { blogs, error } = response.data
+        if (error) {
+            toastMessage(false, error)
+            return null;
+        }
+        return { blogs };
+
+    } catch (e) {
+        toastMessage(false, "Something went wrong")
+        return null
+    }
+}
+
+export const getBlogbyId = async (id) => {
+    try {
+        let url = `${baseURL}blog/getblog/${id}`;
+        const response = await axios({ method: "GET", url: url, headers: { "Content-type": "application/json" } })
+        const { blog, error } = response.data
+
+        if (error) {
+            toastMessage(false, error)
+            return null;
+        }
+
+        return { blog };
+
+    } catch (e) {
+        toastMessage(false, "Something went wrong")
+        return null
+    }
+}
+
+export const getmyBlog = async () => {
+    try {
+        let token = await localStorage.getItem("token")
+        let url = `${baseURL}blog/getmyblog`;
+        const response = await axios({ method: "GET", url: url, headers: { "Authorization": `Bearer ${token}`, "Content-type": "application/json", } })
+        const { blogs, error } = response.data
+
+        if (error) {
+            toastMessage(false, error)
+            return null;
+        }
+
+        return { blogs};
 
     } catch (e) {
         toastMessage(false, "Something went wrong")

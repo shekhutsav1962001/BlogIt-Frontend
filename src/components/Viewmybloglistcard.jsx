@@ -1,20 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-
-function Viewmybloglistcard() {
+import { useHistory } from "react-router-dom";
+function Viewmybloglistcard(props) {
+    
+    const { date, title, id } = props;
+    const history = useHistory();
     return (
         <div className="col-md-6 col-lg-4">
-            <div className="card">
+            <div className="card" onClick={() => {
+                let path = "/viewblog/" + id
+                history.push(path);
+            }} >
                 <div className="card-header">
 
-                    Special title treatment
-            </div>
+                    {title}
+                </div>
                 <div className="card-body">
-                    <Link to="/">Read more ...</Link>
+
+                    Posted On :- {date} <br />
+                    <Link to={'viewblog/' + id}>Read more ...</Link>
                 </div>
                 <div className="card-footer text-muted">
-                    Fri May 28 2021
-            </div>
+                    <div className="d-flex justify-content-between">
+
+                        <i className="fa fa-edit"></i>
+                        <i className="fa fa-trash"></i>
+                    </div>
+                </div>
             </div>
         </div>
     )
