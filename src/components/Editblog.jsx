@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
 import MarkdownIt from 'markdown-it'
 import { getBlogForEdit, EditBlog } from "../apis/Blog"
@@ -7,6 +7,7 @@ import { isLoggedIn } from '../apis/LoggedIn'
 import { Redirect } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { toastMessage } from '../apis/Toast'
+import { MyLoginContext } from '../App'
 function Editblog() {
     const history = useHistory();
     const { id } = useParams()
@@ -14,7 +15,7 @@ function Editblog() {
     const mdParser = new MarkdownIt({ html: false, breaks: true, linkify: false });
     const [content, setContent] = useState("")
     const [title, setTitle] = useState("")
-    const [isLogin, setisLogin] = useState(isLoggedIn());
+    const { isLogin, setisLogin } = useContext(MyLoginContext);
     useEffect(() => {
         if (isLoggedIn()) {
             setisLogin(true)
@@ -26,10 +27,9 @@ function Editblog() {
             const data = await getBlogForEdit(id);
             if (data && data.status) {
                 localStorage.removeItem("token")
+                setisLogin(false)
                 history.push('/login')
-                setTimeout(function () {
-                    window.location.reload();
-                }, 2000);
+                
 
             }
             if (data && data.blog) {
@@ -39,7 +39,8 @@ function Editblog() {
             }
         }
         getblog()
-    }, [id, history])
+
+    }, [id, history, setisLogin])
 
     function handleEditorChange({ html, text }) {
         setContent(text)
@@ -64,10 +65,9 @@ function Editblog() {
 
             if (data && data.status) {
                 localStorage.removeItem("token")
+                setisLogin(false)
                 history.push('/login')
-                setTimeout(function () {
-                    window.location.reload();
-                }, 2000);
+                
 
             }
             if (data && data.message) {

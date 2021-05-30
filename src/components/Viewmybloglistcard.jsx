@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { deleteBlog } from "../apis/Blog"
+import { MyLoginContext } from '../App'
 function Viewmybloglistcard(props) {
+
     const history = useHistory();
+    const { setisLogin } = useContext(MyLoginContext);
     const { date, title, id, blogs, setblogs } = props;
     async function deleteMe() {
         const data = await deleteBlog(id);
         if (data && data.status) {
             localStorage.removeItem("token")
             history.push('/login')
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000);
+            setisLogin(false)
 
         }
 

@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import { Link, NavLink } from "react-router-dom";
 import '../styles/Navbar.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { isLoggedIn } from '../apis/LoggedIn.js'
+import { MyLoginContext } from '../App'
 import { ToastContainer } from 'react-toastify';
 function Navbar() {
-    const [isLogin, setisLogin] = useState(isLoggedIn());
+    // const [isLogin, setisLogin] = useState(isLoggedIn());
+    const { isLogin, setisLogin } = useContext(MyLoginContext);
+
+
     useEffect(() => {
         if (isLoggedIn()) {
             setisLogin(true)
@@ -14,7 +18,7 @@ function Navbar() {
         else {
             setisLogin(false)
         }
-    }, []);
+    }, [setisLogin]);
     return (
         <>
             <ToastContainer />

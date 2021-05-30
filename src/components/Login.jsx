@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import { GoogleLogin } from 'react-google-login';
 import { toastMessage } from '../apis/Toast'
 import axios from 'axios'
 import "../styles/Login.css"
 // import { useHistory } from 'react-router-dom';
-
+import { MyLoginContext } from '../App'
+import { useHistory } from 'react-router';
 function Login() {
+    const history = useHistory();
+    const { setisLogin } = useContext(MyLoginContext);
     // const history = useHistory();
     const [error, setError] = useState({
         hasError: false,
@@ -30,15 +33,12 @@ function Login() {
             localStorage.setItem("token", token)
             toastMessage(true, "Login successful!!")
 
-            // window.location.reload();
 
-            setTimeout(function () {
-                window.location.reload();
-                // history.push('/viewmyblogs')
-                window.location = "/viewmyblogs"
-            }, 2000);
+            setisLogin(true)
+            let path = "/viewmyblogs"
+            history.push(path);
 
-            
+
         }).catch(err => {
             setError({ hasError: true, errormsg: "Something went wrong" })
         })

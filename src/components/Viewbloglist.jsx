@@ -4,9 +4,9 @@ import { getallBlogs } from '../apis/Blog'
 function Viewbloglist() {
 
     const [blogs, setblogs] = useState([])
-    
+
     useEffect(() => {
-        
+
         async function getblogs() {
             const data = await getallBlogs();
             if (data && data.blogs && data.blogs.length) {
@@ -18,9 +18,9 @@ function Viewbloglist() {
             }
         }
         getblogs()
-        
+
     }, [])
-    
+
     return (
         <>
             {blogs.length === 0 ? (<div style={{ overflowX: "hidden" }}>

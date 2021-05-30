@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css';
@@ -8,16 +8,17 @@ import { Redirect } from 'react-router';
 
 import { toastMessage } from '../apis/Toast'
 import { addBlog, UploadFile } from "../apis/Blog"
-
+import { MyLoginContext } from '../App'
 import { useHistory } from 'react-router-dom';
 function Addblog() {
+    const { isLogin, setisLogin } = useContext(MyLoginContext);
     const history = useHistory();
     const [content, setContent] = useState("")
     const [title, setTitle] = useState("")
     const [file, setFile] = useState(null)
     const [url, setUrl] = useState("")
     const mdParser = new MarkdownIt({ html: false, breaks: true, linkify: false });
-    const [isLogin, setisLogin] = useState(isLoggedIn());
+    // const [isLogin, setisLogin] = useState(isLoggedIn());
     const [isDisabled, setisDisable] = useState(false);
     const [isfileDisabled, setisfileDisable] = useState(false);
 
@@ -33,7 +34,7 @@ function Addblog() {
         else {
             setisLogin(false)
         }
-    }, [])
+    }, [setisLogin])
 
     function copyurl() {
         var tempInput = document.createElement("input");
@@ -44,7 +45,7 @@ function Addblog() {
         document.body.removeChild(tempInput);
         toastMessage(true, "URL copied to clipboard")
     }
-    
+
     function uploadImage() {
         if (!file) {
             toastMessage(false, "Please choose a file")
@@ -58,10 +59,9 @@ function Addblog() {
 
             if (data && data.status) {
                 localStorage.removeItem("token")
+                setisLogin(false)
                 history.push('/login')
-                setTimeout(function () {
-                    window.location.reload();
-                }, 2000);
+                
 
             }
 
@@ -97,9 +97,7 @@ function Addblog() {
             if (data && data.status) {
                 localStorage.removeItem("token")
                 history.push('/login')
-                setTimeout(function () {
-                    window.location.reload();
-                }, 2000);
+                setisLogin(false)
 
             }
             if (data && data.message) {
@@ -141,7 +139,7 @@ function Addblog() {
                         <h5><b>Choose Your Image to Upload</b></h5>
                         <h5>Or Drop Your Image Here</h5>
 
-                        <input type="file" name="image_name" className="image-input" onChange={(e) => {
+                        <input type="file" accept="image/*" name="image_name" className="image-input" onChange={(e) => {
                             if (e.target.files.length > 0) {
 
                                 setFile(e.target.files[0])

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { Redirect, Route, Switch } from "react-router-dom";
 // import Footer from "./components/Footer"
@@ -14,10 +14,12 @@ import Editblog from './components/Editblog'
 import { isLoggedIn } from './apis/LoggedIn'
 // toster css
 import 'react-toastify/dist/ReactToastify.css';
+const MyLoginContext = createContext();
 function App() {
 
   const [splash, setSplash] = useState(false);
   const [isLogin, setisLogin] = useState(isLoggedIn());
+
   useEffect(() => {
     if (isLoggedIn()) {
       setisLogin(true)
@@ -34,35 +36,38 @@ function App() {
   return (
 
     <>
+      <MyLoginContext.Provider value={{ isLogin, setisLogin }}>
+        <Navbar />
 
-      <Navbar />
-      {splash === true ? <Splash /> :
-        <Switch>
+        {splash === true ? <Splash /> :
+          <Switch>
 
-          <Route exact={true} path="/" component={Landing}></Route>
-          <Route exact={true} path="/login" component={Login}></Route>
-          <Route exact={true} path="/viewblogs" component={Viewbloglist}></Route>
-          <Route exact={true} path="/viewblog/:id" component={Viewblog}></Route>
+            <Route exact={true} path="/" component={Landing}></Route>
 
-
-          {/* auth required */}
-          <Route exact={true} path="/addblog">
-            {isLogin ? <Addblog /> : <Redirect to="/" />}
-          </Route>
-          <Route exact={true} path="/viewmyblogs">
-            {isLogin ? <Viewmybloglist /> : <Redirect to="/" />}
-          </Route>
-          <Route exact={true} path="/editblog/:id">
-            {isLogin ? <Editblog /> : <Redirect to="/" />}
-          </Route>
+            <Route exact={true} path="/login" component={Login}></Route>
+            <Route exact={true} path="/viewblogs" component={Viewbloglist}></Route>
+            <Route exact={true} path="/viewblog/:id" component={Viewblog}></Route>
 
 
-        </Switch>
-      }
+            {/* auth required */}
+            <Route exact={true} path="/addblog">
+              {isLogin ? <Addblog /> : <Redirect to="/" />}
+            </Route>
+            <Route exact={true} path="/viewmyblogs">
+              {isLogin ? <Viewmybloglist /> : <Redirect to="/" />}
+            </Route>
+            <Route exact={true} path="/editblog/:id">
+              {isLogin ? <Editblog /> : <Redirect to="/" />}
+            </Route>
 
+
+          </Switch>
+        }
+      </MyLoginContext.Provider>
       {/* <Footer /> */}
     </>
   );
 }
 
 export default App;
+export { MyLoginContext };
