@@ -58,3 +58,23 @@ h3.empty{
         font-size: 15px;
     } 
   }
+
+  .copyurl
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .copyurlinput
+  {
+    line-height: 20px;  
+    height: 40px;
+    margin: 0;
+  }
+
+  .copyurlbtn{
+    line-height: 20px;    
+    height: 40px;
+    margin: 0;
+  }

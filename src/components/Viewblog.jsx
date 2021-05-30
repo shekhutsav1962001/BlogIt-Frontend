@@ -11,7 +11,7 @@ function Viewblog() {
         async function getblog() {
             const data = await getBlogbyId(id);
             if (data && data.blog) {
-                console.log(data.blog);
+                // console.log(data.blog);
                 setblog(data.blog)
 
                 setTimeout(function () {
@@ -41,10 +41,6 @@ function Viewblog() {
             {blog ? (<>
                 <div className="container">
                     <h1 className="blogtitle text-center mt-5" style={{ color: "#2f2e41" }}>{blog.title}</h1>
-                    {blog.image ? (<div className="d-flex justify-content-center mt-3" >
-                        <img src={blog.image} style={{ maxHeight: "500px" }} alt="not found"
-                            className="img-fluid" />
-                    </div>) : null}
 
                     <MdEditor
                         style={{ marginTop: "10px", marginBottom: "30px" }}
@@ -62,9 +58,7 @@ function Viewblog() {
             </div>)
             }
         </>
-        // <div>
-        //     View Blog {id}
-        // </div>
+
     )
 }
 

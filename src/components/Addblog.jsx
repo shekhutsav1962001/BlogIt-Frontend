@@ -7,7 +7,7 @@ import { isLoggedIn } from '../apis/LoggedIn'
 import { Redirect } from 'react-router';
 
 import { toastMessage } from '../apis/Toast'
-import { addBlogwithoutImage,addBlogwithImage } from "../apis/Blog"
+import { addBlog, UploadFile } from "../apis/Blog"
 
 import { useHistory } from 'react-router-dom';
 function Addblog() {
@@ -15,13 +15,12 @@ function Addblog() {
     const [content, setContent] = useState("")
     const [title, setTitle] = useState("")
     const [file, setFile] = useState(null)
-    // const [defalut, setDefault] = useState(localStorage.getItem("data") ? localStorage.getItem("data") : "")
-    // const [defalut, setDefault] = useState("")
-
+    const [url, setUrl] = useState("")
     const mdParser = new MarkdownIt({ html: false, breaks: true, linkify: false });
-
     const [isLogin, setisLogin] = useState(isLoggedIn());
     const [isDisabled, setisDisable] = useState(false);
+    const [isfileDisabled, setisfileDisable] = useState(false);
+
     function handleEditorChange({ html, text }) {
         setContent(text)
     }
@@ -34,23 +33,50 @@ function Addblog() {
         else {
             setisLogin(false)
         }
-        // hide nav
-        // let nav = document.getElementsByClassName('rc-md-navigation')[0]
-        // nav.classList.toggle('visible');
-        // nav.classList.toggle('in-visible');
-
-
-        // hide md
-        // let md = document.getElementsByClassName('section sec-md')[0]
-        // md.remove()
-        // md.classList.toggle('visible');
-        // md.classList.toggle('invisible');
     }, [])
+
+    function copyurl() {
+        var tempInput = document.createElement("input");
+        tempInput.value = url;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        toastMessage(true, "URL copied to clipboard")
+    }
+    
+    function uploadImage() {
+        if (!file) {
+            toastMessage(false, "Please choose a file")
+            return;
+        }
+        setisfileDisable(true)
+        let formData = new FormData();
+        formData.append("file", file);
+        async function addfile() {
+            const data = await UploadFile(formData);
+
+            if (data && data.status) {
+                localStorage.removeItem("token")
+                history.push('/login')
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+
+            }
+
+            if (data && data.message) {
+                document.getElementById("filename").innerText = "";
+                setisfileDisable(false)
+                setFile(null)
+                setUrl(data.message)
+                // history.push('/viewmyblogs')
+            }
+        }
+        addfile()
+    }
     function submit() {
 
-        // console.log(title)
-        // console.log(content);
-        // console.log(file);
         if (title.trim().length === 0 || content.trim().length === 0) {
             toastMessage(false, "Please fill required fields")
             return;
@@ -64,51 +90,26 @@ function Addblog() {
             return;
         }
         setisDisable(true)
-        if (file) {
-            console.log("yes file");
-            let formData = new FormData();
-            formData.append("file", file);
-            formData.append("title", title);
-            formData.append("content", content);
-            async function addblog() {
-                const data = await addBlogwithImage(formData);
 
-                if (data && data.status) {
-                    localStorage.removeItem("token")
-                    history.push('/login')
-                    setTimeout(function () {
-                        window.location.reload();
-                    }, 2000);
+        async function addblog() {
+            const data = await addBlog({ title, content });
 
-                }
-                
-                if (data && data.message) {
-                    history.push('/viewmyblogs')
-                }
+            if (data && data.status) {
+                localStorage.removeItem("token")
+                history.push('/login')
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+
             }
-            addblog()
-        }
-        else {
-            console.log("no file");
-            async function addblog() {
-                const data = await addBlogwithoutImage({ title, content });
+            if (data && data.message) {
 
-                if (data && data.status) {
-                    localStorage.removeItem("token")
-                    history.push('/login')
-                    setTimeout(function () {
-                        window.location.reload();
-                    }, 2000);
-
-                }
-                if (data && data.message) {
-
-                    history.push('/viewmyblogs')
-                }
+                history.push('/viewmyblogs')
             }
-            addblog()
-
         }
+        addblog()
+
+
     }
     return (
 
@@ -151,12 +152,24 @@ function Addblog() {
                         <h5 id="filename"> </h5>
 
                     </div>
+                    <div className="parent">
+                        <button disabled={isfileDisabled} onClick={uploadImage} className="btn btn-outline-primary addblogbtn ">
+                            Upload Image</button>
+                    </div>
+                    {url === "" ? null : (<div className="copyurl">
+                        <input className="copyurlinput" id="url" value={url} type="text" disabled autoComplete="off" autoCorrect="off" spellCheck="false" />
+
+                        <button onClick={copyurl} className="btn btn-outline-primary copyurlbtn">
+
+                            Copy</button>
+                    </div>)}
+
+
+
                 </div>
                 <div className="parent">
                     <button disabled={isDisabled} onClick={submit} className="btn btn-outline-primary addblogbtn ">
-                        {/* <span style={{display:"none"}} className="spinner-border spinner-border-sm " role="status" aria-hidden="true"></span> */}
-                     Add Blog</button>
-
+                        Add Blog</button>
                 </div>
             </div>) : (<Redirect to="/" />)}
 

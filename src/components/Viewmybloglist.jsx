@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Viewmybloglistcard from './Viewmybloglistcard'
 import { isLoggedIn } from '../apis/LoggedIn'
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import { getmyBlog } from '../apis/Blog'
 function Viewmybloglist() {
     const [isLogin, setisLogin] = useState(isLoggedIn());
     const [blogs, setblogs] = useState([])
-
+    const history = useHistory();
     useEffect(() => {
         if (isLoggedIn()) {
             setisLogin(true)
@@ -16,6 +16,14 @@ function Viewmybloglist() {
         }
         async function getblogs() {
             const data = await getmyBlog();
+            if (data && data.status) {
+                localStorage.removeItem("token")
+                history.push('/login')
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+
+            }
             if (data && data.blogs && data.blogs.length) {
                 setblogs(data.blogs)
             }
@@ -24,7 +32,7 @@ function Viewmybloglist() {
             }
         }
         getblogs()
-    }, [])
+    }, [history])
     return (
         <>
             {isLogin ? (
@@ -40,7 +48,7 @@ function Viewmybloglist() {
                         <div className="row">
                             {blogs.map((data, index) => {
 
-                                return (<Viewmybloglistcard id={data._id} title={data.title} date={data.date} key={index} />)
+                                return (<Viewmybloglistcard  blogs={blogs} setblogs={setblogs} id={data._id} title={data.title} date={data.date} key={index} />)
                             })}
 
                         </div>

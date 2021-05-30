@@ -10,6 +10,7 @@ import Viewbloglist from "./components/Viewbloglist"
 import Viewblog from "./components/Viewblog"
 import Viewmybloglist from './components/Viewmybloglist'
 import Login from "./components/Login"
+import Editblog from './components/Editblog'
 import { isLoggedIn } from './apis/LoggedIn'
 // toster css
 import 'react-toastify/dist/ReactToastify.css';
@@ -51,6 +52,10 @@ function App() {
           <Route exact={true} path="/viewmyblogs">
             {isLogin ? <Viewmybloglist /> : <Redirect to="/" />}
           </Route>
+          <Route exact={true} path="/editblog/:id">
+            {isLogin ? <Editblog /> : <Redirect to="/" />}
+          </Route>
+
 
         </Switch>
       }
