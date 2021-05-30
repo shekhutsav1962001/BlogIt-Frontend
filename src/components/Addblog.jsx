@@ -96,9 +96,8 @@ function Addblog() {
 
             if (data && data.status) {
                 localStorage.removeItem("token")
-                history.push('/login')
                 setisLogin(false)
-
+                history.push('/login')
             }
             if (data && data.message) {
 

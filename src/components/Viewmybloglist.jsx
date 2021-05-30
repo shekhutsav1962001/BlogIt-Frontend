@@ -19,8 +19,10 @@ function Viewmybloglist() {
             const data = await getmyBlog();
             if (data && data.status) {
                 localStorage.removeItem("token")
-                history.push('/login')
                 setisLogin(false)
+                history.push('/login')
+                
+        
             }
             if (data && data.blogs && data.blogs.length) {
                 setblogs(data.blogs)

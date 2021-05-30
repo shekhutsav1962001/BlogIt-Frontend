@@ -11,8 +11,9 @@ function Viewmybloglistcard(props) {
         const data = await deleteBlog(id);
         if (data && data.status) {
             localStorage.removeItem("token")
-            history.push('/login')
             setisLogin(false)
+            history.push('/login')
+            
 
         }
 
