@@ -1,12 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
 import { getBlogbyId } from "../apis/Blog"
 import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
+import Commentlist from './Commentlist';
+import { toastMessage } from '../apis/Toast'
+import { addComment } from "../apis/Blog"
+import { MyLoginContext } from '../App'
+import { useHistory } from 'react-router-dom';
 function Viewblog() {
     const { id } = useParams()
+    const history = useHistory();
     const [blog, setblog] = useState(null)
+    const [comment, setComment] = useState("")
+    const [msg, setMsg] = useState("")
     const mdParser = new MarkdownIt({ html: false, breaks: true, linkify: false });
+    const { isLogin, setisLogin } = useContext(MyLoginContext);
     useEffect(() => {
         async function getblog() {
             const data = await getBlogbyId(id);
@@ -16,9 +25,13 @@ function Viewblog() {
 
                 setTimeout(function () {
                     let nav = document.getElementsByClassName('rc-md-navigation')[0]
-                    nav.remove()
+                    if (nav) {
+                        nav.remove()
+                    }
                     let md = document.getElementsByClassName('section sec-md')[0]
-                    md.remove()
+                    if (md) {
+                        md.remove()
+                    }
                 }, 200);
                 // hide nav
                 // let nav = document.getElementsByClassName('rc-md-navigation')[0]
@@ -34,20 +47,69 @@ function Viewblog() {
             }
         }
         getblog()
-    }, [id])
+        // console.log("aa");
+    }, [id, msg])
+
+    function submitComment() {
+        // setblog([])
+        // console.log(blog.comments.length);
+        if (comment.trim() === "") {
+            toastMessage(false, "Please Enter commnet")
+            return;
+        }
+        if (!isLogin) {
+            toastMessage(false, "Please Login to post a commnet")
+            return;
+        }
+        async function addcmt() {
+            const data = await addComment({ id, comment });
+
+            if (data && data.status) {
+                localStorage.removeItem("token")
+                setisLogin(false)
+                history.push('/login')
+            }
+            if (data && data.message) {
+                setMsg(data.message)
+                setComment("")
+                // history.push('/viewmyblogs')
+            }
+        }
+        addcmt()
+    }
 
     return (
         <>
             {blog ? (<>
                 <div className="container">
                     <h1 className="blogtitle text-center mt-5" style={{ color: "#2f2e41" }}>{blog.title}</h1>
-
+                    <div className="blogdetails">
+                        <div className="bloguser">
+                            <img className="avatar" src={blog.user.picture} alt="imagenotfound" />
+                            Posted By - <strong>{blog.user.name}</strong>
+                        </div>
+                        <div className="blogdate text-muted">Posted On - {blog.date}</div>
+                    </div>
                     <MdEditor
                         style={{ marginTop: "10px", marginBottom: "30px" }}
                         renderHTML={(text) => mdParser.render(text)}
 
                         defaultValue={blog.content}
-                    /></div></>
+                    />
+                    {blog.comments.length === 0 ? null : (<Commentlist comments={blog.comments} />)}
+
+                    <div className="parent" id="comment">
+                        <div className="copyurl">
+                            <input className="copyurlinput" type="text" placeholder="Write a comment here...." value={comment} onChange={(e) => {
+                                setComment(e.target.value)
+                            }} autoComplete="off" autoCorrect="off" spellCheck="false" />
+
+                            <button className="btn btn-outline-primary copyurlbtn" onClick={submitComment}>
+
+                                Commnet</button>
+                        </div>
+                    </div>
+                </div></>
             ) : (<div style={{ overflowX: "hidden" }}>
 
                 <h3 className="empty text-center mt-5" style={{ color: "#2f2e41" }}>Blog Not Found!</h3>

@@ -199,3 +199,29 @@ export const deleteBlog = async (id) => {
         return null
     }
 }
+
+
+export const addComment = async (data) => {
+    try {
+
+        let { id, comment } = data
+        let token = await localStorage.getItem("token")
+        let url = `${baseURL}blog/addcomment/${id}`;
+        const response = await axios({ method: "PUT", url: url, data: { comment }, headers: { "Authorization": `Bearer ${token}`, "Content-type": "application/json" } })
+        const { error, message, status } = response.data
+        if (error) {
+            toastMessage(false, error)
+            if (status === 401) {
+                return { status };
+            }
+            return null;
+        }
+
+        toastMessage(true, message)
+        return { message };
+
+    } catch (e) {
+        toastMessage(false, "Something went wrong")
+        return null
+    }
+}
