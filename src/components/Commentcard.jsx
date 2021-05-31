@@ -11,7 +11,7 @@ function Commentcard(props) {
                         alt="not found" />
                     <strong>{name}</strong>
                 </div>
-                <div className="comment-date">Posted on:- {date}</div>
+                <div className="comment-date text-muted">Posted on:- {date}</div>
             </div>
             <div className="commentcontent">
                 {comment}

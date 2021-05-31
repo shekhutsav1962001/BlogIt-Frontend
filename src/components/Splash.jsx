@@ -1,5 +1,5 @@
 import React from 'react'
-import "../styles/Splash.css"
+
 function Splash() {
     return (
         <div className="splash">

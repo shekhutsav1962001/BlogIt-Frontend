@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import '../styles/Viewbloglistcard.css'
+
 import { useHistory } from "react-router-dom";
 function Viewbloglistcard(props) {
     const { date, email, picture, title, id } = props;
@@ -18,9 +18,9 @@ function Viewbloglistcard(props) {
                     {title}
                 </div>
                 <div className="card-body">
-                    <h5 className="card-title">Posted by :- {email}</h5>
+                    <h6 className="card-title">Posted by :- {email}</h6>
 
-                    <Link to={'viewblog/' + id} >Read more ...</Link>
+                    <Link className="mylink" to={'viewblog/' + id} >Read more ...</Link>
                 </div>
                 <div className="card-footer text-muted">
                     {date}

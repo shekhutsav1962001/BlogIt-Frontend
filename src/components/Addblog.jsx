@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css';
-import '../styles/Addblog.css'
+
 import { isLoggedIn } from '../apis/LoggedIn'
 import { Redirect } from 'react-router';
 
@@ -133,8 +133,8 @@ function Addblog() {
 
                         <i className="fa fa-upload" aria-hidden="true"></i>
 
-                        <h5><b>Choose Your Image to Upload</b></h5>
-                        <h5>Or Drop Your Image Here</h5>
+                        <h5 className="filefive"><b>Choose Your Image to Upload</b></h5>
+                        <h5 className="filefive">Or Drop Your Image Here</h5>
 
                         <input type="file" accept="image/*" name="image_name" className="image-input" onChange={(e) => {
                             if (e.target.files.length > 0) {
@@ -144,7 +144,7 @@ function Addblog() {
                             document.getElementById("filename").innerText = e.target.value.split('\\').pop()
                         }} />
 
-                        <h5 id="filename"> </h5>
+                        <h5  id="filename"> </h5>
 
                     </div>
                     <div className="parent">

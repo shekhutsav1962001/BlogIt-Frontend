@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 
 import { Link, NavLink } from "react-router-dom";
-import '../styles/Navbar.css'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { isLoggedIn } from '../apis/LoggedIn.js'
 import { MyLoginContext } from '../App'

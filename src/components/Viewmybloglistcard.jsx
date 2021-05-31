@@ -34,11 +34,11 @@ function Viewmybloglistcard(props) {
                 <div className="card-body">
 
                     Posted On :- {date} <br />
-                    <Link to={'viewblog/' + id}>Read more ...</Link>
+                    <Link className="mylink" to={'viewblog/' + id}>Read more ...</Link>
                 </div>
                 <div className="card-footer text-muted">
                     <div className="d-flex justify-content-between">
-                        <Link to={'editblog/' + id}><div className="btn btn-outline-primary"><i className="fa fa-edit"></i> Edit</div></Link>
+                        <Link  to={'editblog/' + id}><div className="btn btn-outline-primary"><i className="fa fa-edit"></i> Edit</div></Link>
                         <div className="btn btn-outline-danger" onClick={deleteMe}><i className="fa fa-trash"></i> Delete</div>
 
 
