@@ -17,7 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const MyLoginContext = createContext();
 function App() {
 
-  const [splash, setSplash] = useState(false);
+  const [splash, setSplash] = useState(true);
   const [isLogin, setisLogin] = useState(isLoggedIn());
   
   useEffect(() => {
