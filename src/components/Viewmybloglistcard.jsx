@@ -13,7 +13,7 @@ function Viewmybloglistcard(props) {
             localStorage.removeItem("token")
             setisLogin(false)
             history.push('/login')
-            
+
 
         }
 

@@ -33,26 +33,14 @@ function Viewblog() {
                         md.remove()
                     }
                 }, 200);
-                // hide nav
-                // let nav = document.getElementsByClassName('rc-md-navigation')[0]
-                // nav.classList.toggle('visible');
-                // nav.classList.toggle('in-visible');
 
-
-                // hide md
-                // let md = document.getElementsByClassName('section sec-md')[0]
-                // md.remove()
-                // md.classList.toggle('visible');
-                // md.classList.toggle('invisible');
             }
         }
         getblog()
-        // console.log("aa");
     }, [id, msg])
 
     function submitComment() {
-        // setblog([])
-        // console.log(blog.comments.length);
+
         if (comment.trim() === "") {
             toastMessage(false, "Please Enter commnet")
             return;
@@ -72,7 +60,7 @@ function Viewblog() {
             if (data && data.message) {
                 setMsg(data.message)
                 setComment("")
-                // history.push('/viewmyblogs')
+
             }
         }
         addcmt()

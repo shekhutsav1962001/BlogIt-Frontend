@@ -18,7 +18,6 @@ function Addblog() {
     const [file, setFile] = useState(null)
     const [url, setUrl] = useState("")
     const mdParser = new MarkdownIt({ html: false, breaks: true, linkify: false });
-    // const [isLogin, setisLogin] = useState(isLoggedIn());
     const [isDisabled, setisDisable] = useState(false);
     const [isfileDisabled, setisfileDisable] = useState(false);
 
@@ -61,7 +60,7 @@ function Addblog() {
                 localStorage.removeItem("token")
                 setisLogin(false)
                 history.push('/login')
-                
+
 
             }
 
@@ -70,7 +69,6 @@ function Addblog() {
                 setisfileDisable(false)
                 setFile(null)
                 setUrl(data.message)
-                // history.push('/viewmyblogs')
             }
         }
         addfile()

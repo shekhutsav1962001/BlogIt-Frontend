@@ -1,26 +1,23 @@
 import React, { useContext, useState } from 'react'
 
 import { GoogleLogin } from 'react-google-login';
-import { toastMessage } from '../apis/Toast'
+
 import axios from 'axios'
 import "../styles/Login.css"
-// import { useHistory } from 'react-router-dom';
+
 import { MyLoginContext } from '../App'
 import { useHistory } from 'react-router';
+import { toastMessage } from "../apis/Toast"
+import { LoginEmailPassword } from "../apis/Auth"
 function Login() {
     const history = useHistory();
     const { setisLogin } = useContext(MyLoginContext);
-    // const history = useHistory();
-    const [error, setError] = useState({
-        hasError: false,
-        errormsg: null
+    const [user, setUser] = useState({
+        email: '',
+        password: ''
     });
-    // const [user, setUser] = useState({
-    //     email: '',
-    //     password: ''
-    // });
     const responseSuccessGoogle = (response) => {
-        console.log("success")
+        // console.log("success")
         axios({
             method: "POST",
             url: `${process.env.REACT_APP_API}auth/googlelogin`,
@@ -28,7 +25,8 @@ function Login() {
         }).then(res => {
             const { error, token } = res.data
             if (error) {
-                setError({ hasError: true, errormsg: error })
+                toastMessage(false, error)
+                return;
             }
             localStorage.setItem("token", token)
             toastMessage(true, "Login successful!!")
@@ -40,14 +38,14 @@ function Login() {
 
 
         }).catch(err => {
-            setError({ hasError: true, errormsg: "Something went wrong" })
+            toastMessage(false, "Something went wrong")
         })
 
     }
     const responseErrorGoogle = (response) => {
         console.log("error")
         // console.log(response)
-        setError({ hasError: true, errormsg: "Something went wrong" })
+        toastMessage(false, "Something went wrong")
     }
     setTimeout(function () {
         const labels = document.querySelectorAll('.form-controll label')
@@ -58,19 +56,27 @@ function Login() {
                 .join('')
         })
     }, 100);
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
+        const data = await LoginEmailPassword({ password: user.password, email: user.email });
+        if (data && data.token) {
+            
+            localStorage.setItem("token", data.token)
+            setisLogin(true)
+            let path = "/viewmyblogs"
+            history.push(path);
+        }
     }
 
 
-    // function handleEvent(e) {
-    //     setUser((preValue) => {
-    //         return {
-    //             ...preValue,
-    //             [e.target.name]: e.target.value
-    //         }
-    //     })
-    // }
+    function handleEvent(e) {
+        setUser((preValue) => {
+            return {
+                ...preValue,
+                [e.target.name]: e.target.value
+            }
+        })
+    }
 
 
     return (
@@ -79,16 +85,16 @@ function Login() {
             <div className="body">
                 <div className="containerr">
                     <h1>Login</h1>
-                    {error.hasError ? <p className="tomato">{error.errormsg}</p> : null}
+
                     <form onSubmit={handleSubmit}>
                         <div className="form-controll">
-                            <input name="email" type="text" autoComplete="off" autoCorrect="off" spellCheck="false" required />
+                            <input name="email" type="text" value={user.email} onChange={handleEvent} autoComplete="off" autoCorrect="off" spellCheck="false" required />
                             <label>Email</label>
 
                         </div>
 
                         <div className="form-controll">
-                            <input name="password" type="password" autoComplete="off" autoCorrect="off" spellCheck="false" required />
+                            <input name="password" type="password" value={user.password} onChange={handleEvent} autoComplete="off" autoCorrect="off" spellCheck="false" required />
                             <label>Password</label>
                         </div>
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { Link, NavLink } from "react-router-dom";
 import '../styles/Navbar.css'
@@ -6,11 +6,14 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { isLoggedIn } from '../apis/LoggedIn.js'
 import { MyLoginContext } from '../App'
 import { ToastContainer } from 'react-toastify';
+import {setPass} from '../apis/Auth'
+import { useHistory } from 'react-router-dom';
+import { toastMessage } from '../apis/Toast'
 function Navbar() {
-    // const [isLogin, setisLogin] = useState(isLoggedIn());
+    const history = useHistory();
     const { isLogin, setisLogin } = useContext(MyLoginContext);
 
-
+    const [password, setPassword] = useState("")
     useEffect(() => {
         if (isLoggedIn()) {
             setisLogin(true)
@@ -19,6 +22,32 @@ function Navbar() {
             setisLogin(false)
         }
     }, [setisLogin]);
+    async function updatePassword() {
+        if(password.trim().length===0)
+        {
+            toastMessage(false,"Please enter password")
+            setPassword("")
+            return;
+        }
+        if(password.trim().length<5)
+        {
+            toastMessage(false,"Minimum length of password should be 5")
+            setPassword("")
+            return;
+        }
+        const data = await setPass({password});
+        if (data && data.status) {
+
+            localStorage.removeItem("token")
+            setisLogin(false)
+            history.push('/login')
+        }
+
+        if (data && data.message) {
+            console.log("yo boy password seteddd");
+           setPassword("")
+        }
+    }
     return (
         <>
             <ToastContainer />
@@ -34,11 +63,12 @@ function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav">
                         <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/" className="nav-link third after">Home</NavLink></li>
-                        <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/viewblogs" className="nav-link third after">view Blogs</NavLink></li>
+                        <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/viewblogs" className="nav-link third after" >view Blogs</NavLink></li>
                         {isLogin ? (
                             <>
                                 <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/addblog" className="nav-link third after">Add Blog</NavLink></li>
                                 <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/viewmyblogs" className="nav-link third after">View myblogs</NavLink></li>
+                                <li className="nav-item"><a href="/" data-bs-toggle="modal" data-bs-target="#exampleModal" className="nav-link third after">Set password</a></li>
                                 <li className="nav-item" onClick={() => {
                                     localStorage.removeItem("token")
                                     setisLogin(false)
@@ -51,6 +81,37 @@ function Navbar() {
 
 
                     </ul >
+
+
+
+                    <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="exampleModalLabel">Set Password</h5>
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div className="modal-body">
+                                    <form>
+                                        <div className="alert alert-info" role="alert">
+                                            By Setting password you can login with email and password.
+                                            </div>
+                                        {/* <label ></label> */}
+                                        <div className="form-group">
+                                            <label htmlFor="exampleInputPassword1">Password</label>
+                                            <input type="password" value={password} onChange={(e) => {
+                                                setPassword(e.target.value)
+                                            }} className="form-control" id="exampleInputPassword1" placeholder="Password" />
+                                        </div>
+                                    </form>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" onClick={updatePassword} className="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div >
             </nav >
         </>
