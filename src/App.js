@@ -19,7 +19,7 @@ function App() {
 
   const [splash, setSplash] = useState(false);
   const [isLogin, setisLogin] = useState(isLoggedIn());
-
+  
   useEffect(() => {
     if (isLoggedIn()) {
       setisLogin(true)

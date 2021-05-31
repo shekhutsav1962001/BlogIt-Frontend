@@ -1,10 +1,8 @@
 import React from 'react'
 import '../styles/Landing.css'
-
 function Landing() {
     return (
         <>
-
             <header className="masthead">
                 <div className="container h-100">
                     <div className="row h-100 align-items-center">
