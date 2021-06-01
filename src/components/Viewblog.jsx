@@ -49,11 +49,11 @@ function Viewblog() {
     function submitComment() {
 
         if (comment.trim() === "") {
-            toastMessage(false, "Please Enter commnet")
+            toastMessage(false, "Please Enter comment")
             return;
         }
         if (!isLogin) {
-            toastMessage(false, "Please Login to post a commnet")
+            toastMessage(false, "Please Login to post a comment")
             return;
         }
         async function addcmt() {
@@ -108,7 +108,7 @@ function Viewblog() {
 
                                     <button className="btn btn-outline-primary copyurlbtn" onClick={submitComment}>
 
-                                        Commnet</button>
+                                        Comment</button>
                                 </div>
                             </div>
                         </div></>
