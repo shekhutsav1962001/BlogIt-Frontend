@@ -2,7 +2,7 @@
   "name": "blogit",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://shekhutsav1962001/.github.io/BlogIt-Frontend",
+  "homepage": "http://shekhutsav1962001.github.io/BlogIt-Frontend",
   "dependencies": {
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
