@@ -37,11 +37,11 @@ function Viewblog() {
                 }, 10);
 
             }
-            else
-            {
+            else {
                 setLoading(false)
+                setblog(null)
             }
-            
+
         }
         getblog()
     }, [id, msg])
@@ -79,7 +79,12 @@ function Viewblog() {
                 <>
                     {blog ? (<>
                         <div className="container">
-                            <h1 className="blogtitle text-center mt-5" style={{ color: "#2f2e41" }}>{blog.title}</h1>
+                            <h1 className="blogtitle text-center mt-5" style={{ color: "#2f2e41" }}>
+                                <div className="alert alert-info" role="alert">
+                                    {blog.title}
+                                </div>
+
+                            </h1>
                             <div className="blogdetails">
                                 <div className="bloguser">
                                     <img className="avatar" src={blog.user.picture} alt="imagenotfound" />

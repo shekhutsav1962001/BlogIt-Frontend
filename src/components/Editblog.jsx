@@ -41,6 +41,13 @@ function Editblog() {
                 setTitle(data.blog.title)
                 setContent(data.blog.content)
             }
+            else
+            {
+                setLoading(false)
+                setblog(null)
+                setTitle("")
+                setContent("")
+            }
         }
         getblog()
 
@@ -72,10 +79,8 @@ function Editblog() {
                 setisLogin(false)
                 history.push('/login')
 
-
             }
             if (data && data.message) {
-
                 history.push('/viewmyblogs')
             }
         }
