@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { isLoggedIn } from '../apis/LoggedIn.js'
 import { MyLoginContext } from '../App'
 import { ToastContainer } from 'react-toastify';
-import {setPass} from '../apis/Auth'
+import { setPass } from '../apis/Auth'
 import { useHistory } from 'react-router-dom';
 import { toastMessage } from '../apis/Toast'
 function Navbar() {
@@ -23,19 +23,17 @@ function Navbar() {
         }
     }, [setisLogin]);
     async function updatePassword() {
-        if(password.trim().length===0)
-        {
-            toastMessage(false,"Please enter password")
+        if (password.trim().length === 0) {
+            toastMessage(false, "Please enter password")
             setPassword("")
             return;
         }
-        if(password.trim().length<5)
-        {
-            toastMessage(false,"Minimum length of password should be 5")
+        if (password.trim().length < 5) {
+            toastMessage(false, "Minimum length of password should be 5")
             setPassword("")
             return;
         }
-        const data = await setPass({password});
+        const data = await setPass({ password });
         if (data && data.status) {
 
             localStorage.removeItem("token")
@@ -45,7 +43,7 @@ function Navbar() {
 
         if (data && data.message) {
             console.log("yo boy password seteddd");
-           setPassword("")
+            setPassword("")
         }
     }
     return (
@@ -68,11 +66,11 @@ function Navbar() {
                             <>
                                 <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/addblog" className="nav-link third after">Add Blog</NavLink></li>
                                 <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/viewmyblogs" className="nav-link third after">View myblogs</NavLink></li>
-                                <li className="nav-item"><a href="/" data-bs-toggle="modal" data-bs-target="#exampleModal" className="nav-link third after">Set password</a></li>
+                                <li className="nav-item"><NavLink exact={true} to="/temp" data-bs-toggle="modal" data-bs-target="#exampleModal" className="nav-link third after">Set password</NavLink></li>
                                 <li className="nav-item" onClick={() => {
                                     localStorage.removeItem("token")
                                     setisLogin(false)
-                                }}><a href="/" className="nav-link third after">Logout</a></li>
+                                }}><NavLink exact={true} to="/logout" className="nav-link third after">Logout</NavLink></li>
                             </>
                         ) : (
                             <li className="nav-item"><NavLink exact={true} activeClassName="active" to="/login" className="nav-link third after">Login</NavLink></li>

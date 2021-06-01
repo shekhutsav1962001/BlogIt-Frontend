@@ -19,7 +19,7 @@ function App() {
 
   const [splash, setSplash] = useState(true);
   const [isLogin, setisLogin] = useState(isLoggedIn());
-  
+
   useEffect(() => {
     if (isLoggedIn()) {
       setisLogin(true)
@@ -60,7 +60,7 @@ function App() {
               {isLogin ? <Editblog /> : <Redirect to="/" />}
             </Route>
 
-
+            <Route component={Landing}></Route>
           </Switch>
         }
       </MyLoginContext.Provider>
