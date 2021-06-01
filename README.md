@@ -2,7 +2,7 @@
 
 <h5><a href="https://github.com/shekhutsav1962001/BlogIt-Backend">BlogIt Backend</a></h5>
 
-###  Live At [view](https://shekhutsav1962001.github.io/BlogIt-Frontend)
+###  Live At :- [view](https://shekhutsav1962001.github.io/BlogIt-Frontend)
 
 >How to run ?
 ```
